@@ -15,7 +15,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.tesis.pickride.model.RoutePoint;
-import com.tesis.pickride.utils.RouteLoader;
 
 import java.util.Arrays;
 import java.util.List;

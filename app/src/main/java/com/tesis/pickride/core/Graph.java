@@ -1,14 +1,18 @@
 package com.tesis.pickride.core;
 
-import android.util.Log;
-
 import com.google.android.gms.maps.model.LatLng;
 import com.tesis.pickride.model.Edge;
 import com.tesis.pickride.model.RoutePoint;
 import com.tesis.pickride.utils.RouteCalculator;
 import com.tesis.pickride.utils.RouteLoader;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.PriorityQueue;
 
 public class Graph {
   public int vertices;

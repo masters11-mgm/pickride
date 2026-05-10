@@ -4,6 +4,7 @@ import static com.tesis.pickride.utils.RouteLoader.getRandomRoutePoint;
 import static java.lang.System.currentTimeMillis;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.location.Location;
@@ -13,13 +14,10 @@ import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.PopupMenu;
-import android.widget.ProgressBar;
 import android.widget.Toast;
-import android.app.ProgressDialog;
+import com.tesis.pickride.R;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -27,14 +25,12 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.tesis.pickride.R;
 import com.tesis.pickride.core.AstarAlgorithm;
 import com.tesis.pickride.core.AstarAlgorithm.HeuristicType;
 import com.tesis.pickride.core.DjikstraAlgorithm;
@@ -48,7 +44,6 @@ import com.tesis.pickride.utils.MarkerClickHandler;
 import com.tesis.pickride.utils.RouteCalculator;
 import com.tesis.pickride.utils.RouteLoader;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -56,8 +51,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class MasterActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -218,85 +211,85 @@ public class MasterActivity extends AppCompatActivity implements OnMapReadyCallb
 
     }
 
-    @SuppressLint("NonConstantResourceId")
-    private void handleButtonSelection(MenuItem item, EditText timeInput) {
+//    @SuppressLint("NonConstantResourceId")
+//    private void handleButtonSelection(MenuItem item, EditText timeInput) {
+//
+//        Map<String, AstarAlgorithm.Node> nodeMap = graph.toNodeMap();
+//        String timeStr = timeInput.getText().toString();
+//        RoutePoint randomPoint = getRandomRoutePoint(context);
+//        LatLng startLatLng = markerClickHandler.getStartPoint();
+//
+//
+//        switch (item.getItemId()) {
+//            case R.id.tbg_djikstra:
+//                if (!TextUtils.isEmpty(timeStr)) {
+//                    try {
+//                        if (randomPoint != null) {
+//                            int timeInMinutes = Integer.parseInt(timeStr);
+//                            runMultipleDijkstraPathfinding(timeInMinutes, startLatLng);
+////                            runDijkstraPathfindingSingle(timeInMinutes, startLatLng);
+//                        } else {
+//                            Toast.makeText(this, "No points available. ", Toast.LENGTH_SHORT).show();
+//                        }
+//                    } catch (NumberFormatException e) {
+//                        Toast.makeText(this, "Invalid input", Toast.LENGTH_SHORT).show();
+//                    }
+//                } else {
+//                    Toast.makeText(this, "Please enter time in minutes", Toast.LENGTH_SHORT).show();
+//                }
+//                break;
+//            case R.id.tbg_astar_md:
+//                // A-Star with Manhattan Distance
+//                if (!TextUtils.isEmpty(timeStr)) {
+//                    try {
+//                        int timeInMinutes = Integer.parseInt(timeStr);
+//                        runMultipleAstarPathfinding(timeInMinutes, startLatLng, HeuristicType.MANHATTAN);
+//                    } catch (NumberFormatException e) {
+//                        Toast.makeText(this, "Invalid input", Toast.LENGTH_SHORT).show();
+//                    }
+//                } else {
+//                    Toast.makeText(this, "Please enter time in minutes", Toast.LENGTH_SHORT).show();
+//                }
+//                break;
+//
+//            case R.id.tbg_astar_ed:
+//                // A-Star with Euclidean Distance
+//
+//                if (!TextUtils.isEmpty(timeStr)) {
+//                    try {
+//                        int timeInMinutes = Integer.parseInt(timeStr);
+//                        runMultipleAstarPathfinding(timeInMinutes, startLatLng, HeuristicType.EUCLIDEAN);
+//                    } catch (NumberFormatException e) {
+//                        Toast.makeText(this, "Invalid input", Toast.LENGTH_SHORT).show();
+//                    }
+//                } else {
+//                    Toast.makeText(this, "Please enter time in minutes", Toast.LENGTH_SHORT).show();
+//                }
+//                break;
+//
+//            case R.id.tbg_astar_hf:
+//                // A-Star with Haversine Formula
+//                if (!TextUtils.isEmpty(timeStr)) {
+//                    try {
+//                        int timeInMinutes = Integer.parseInt(timeStr);
+//                        runMultipleAstarPathfinding(timeInMinutes, startLatLng, HeuristicType.HAVERSINE);
+//                    } catch (NumberFormatException e) {
+//                        Toast.makeText(this, "Invalid input", Toast.LENGTH_SHORT).show();
+//                    }
+//                } else {
+//                    Toast.makeText(this, "Please enter time in minutes", Toast.LENGTH_SHORT).show();
+//                }
+//                break;
+//
+//        }
+//
+//        if (graph == null || routes == null || routes.isEmpty()) {
+//            Toast.makeText(this, "Graph or routes not ready", Toast.LENGTH_SHORT).show();
+//        }
+//
+//    }
 
-        Map<String, AstarAlgorithm.Node> nodeMap = graph.toNodeMap();
-        String timeStr = timeInput.getText().toString();
-        RoutePoint randomPoint = getRandomRoutePoint(context);
-        LatLng startLatLng = markerClickHandler.getStartPoint();
-
-
-        switch (item.getItemId()) {
-            case R.id.tbg_djikstra:
-                if (!TextUtils.isEmpty(timeStr)) {
-                    try {
-                        if (randomPoint != null) {
-                            int timeInMinutes = Integer.parseInt(timeStr);
-                            runMultipleDijkstraPathfinding(timeInMinutes, startLatLng);
-//                            runDijkstraPathfindingSingle(timeInMinutes, startLatLng);
-                        } else {
-                            Toast.makeText(this, "No points available. ", Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (NumberFormatException e) {
-                        Toast.makeText(this, "Invalid input", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(this, "Please enter time in minutes", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case R.id.tbg_astar_md:
-                // A-Star with Manhattan Distance
-                if (!TextUtils.isEmpty(timeStr)) {
-                    try {
-                        int timeInMinutes = Integer.parseInt(timeStr);
-                        runMultipleAstarPathfinding(timeInMinutes, startLatLng, AstarAlgorithm.HeuristicType.MANHATTAN);
-                    } catch (NumberFormatException e) {
-                        Toast.makeText(this, "Invalid input", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(this, "Please enter time in minutes", Toast.LENGTH_SHORT).show();
-                }
-                break;
-
-            case R.id.tbg_astar_ed:
-                // A-Star with Euclidean Distance
-
-                if (!TextUtils.isEmpty(timeStr)) {
-                    try {
-                        int timeInMinutes = Integer.parseInt(timeStr);
-                        runMultipleAstarPathfinding(timeInMinutes, startLatLng, HeuristicType.EUCLIDEAN);
-                    } catch (NumberFormatException e) {
-                        Toast.makeText(this, "Invalid input", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(this, "Please enter time in minutes", Toast.LENGTH_SHORT).show();
-                }
-                break;
-
-            case R.id.tbg_astar_hf:
-                // A-Star with Haversine Formula
-                if (!TextUtils.isEmpty(timeStr)) {
-                    try {
-                        int timeInMinutes = Integer.parseInt(timeStr);
-                        runMultipleAstarPathfinding(timeInMinutes, startLatLng, HeuristicType.HAVERSINE);
-                    } catch (NumberFormatException e) {
-                        Toast.makeText(this, "Invalid input", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(this, "Please enter time in minutes", Toast.LENGTH_SHORT).show();
-                }
-                break;
-
-        }
-
-        if (graph == null || routes == null || routes.isEmpty()) {
-            Toast.makeText(this, "Graph or routes not ready", Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
-    private void runAStarPathfindingSingle(int timeInMinutes, LatLng startLatLng, AstarAlgorithm.HeuristicType heuristicType) {
+    private void runAStarPathfindingSingle(int timeInMinutes, LatLng startLatLng, HeuristicType heuristicType) {
         long startTime = currentTimeMillis();
 
         if (startLatLng == null) {
@@ -474,7 +467,7 @@ public class MasterActivity extends AppCompatActivity implements OnMapReadyCallb
 //        Toast.makeText(this, "Dijkstra processing complete", Toast.LENGTH_SHORT).show();
     }
 
-    private void runAStarPathfindingForThread(int timeInMinutes, LatLng startLatLng, AstarAlgorithm.HeuristicType heuristicType) {
+    private void runAStarPathfindingForThread(int timeInMinutes, LatLng startLatLng, HeuristicType heuristicType) {
         Runtime runtime = Runtime.getRuntime();
         CountDownLatch latch = new CountDownLatch(1);
 
@@ -756,7 +749,7 @@ public class MasterActivity extends AppCompatActivity implements OnMapReadyCallb
         System.out.println("All threads have completed execution.");
     }
 
-    public void runMultipleAstarPathfinding(int timeInMinutes, LatLng startLatLng, AstarAlgorithm.HeuristicType heuristicType) {
+    public void runMultipleAstarPathfinding(int timeInMinutes, LatLng startLatLng, HeuristicType heuristicType) {
         Thread[] threads = new Thread[30];  // Array untuk menyimpan thread
 
         for (int i = 0; i < 30; i++) {

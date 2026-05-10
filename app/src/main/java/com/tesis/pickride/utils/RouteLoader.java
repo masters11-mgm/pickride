@@ -7,12 +7,13 @@ import android.util.Log;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.tesis.pickride.core.Graph;
 import com.tesis.pickride.model.Route;
 import com.tesis.pickride.model.RoutePoint;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;

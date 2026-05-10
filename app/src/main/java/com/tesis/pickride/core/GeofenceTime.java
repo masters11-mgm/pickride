@@ -1,9 +1,6 @@
 package com.tesis.pickride.core;
 
-import static com.tesis.pickride.utils.RouteCalculator.EARTH_RADIUS;
-
 import android.content.Context;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolygonOptions;

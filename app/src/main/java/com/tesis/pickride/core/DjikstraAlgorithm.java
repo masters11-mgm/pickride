@@ -3,7 +3,14 @@ package com.tesis.pickride.core;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Set;
 
 
 public class DjikstraAlgorithm {

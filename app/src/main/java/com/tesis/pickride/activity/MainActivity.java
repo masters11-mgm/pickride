@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             PopupMenu popup = new PopupMenu(MainActivity.this, button1);
             popup.getMenuInflater().inflate(R.menu.menu_button1, popup.getMenu());
             popup.setOnMenuItemClickListener(item -> {
-                handleButton1Selection(item, timeInput);
+//                handleButton1Selection(item, timeInput);
                 return true;
             });
             popup.show();
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             PopupMenu popup = new PopupMenu(MainActivity.this, button2);
             popup.getMenuInflater().inflate(R.menu.menu_button2, popup.getMenu());
             popup.setOnMenuItemClickListener(item -> {
-                handleButton2Selection(item);
+//                handleButton2Selection(item);
                 return true;
             });
             popup.show();
@@ -109,95 +109,95 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     @SuppressLint("NonConstantResourceId")
-    private void handleButton1Selection(MenuItem item, EditText timeInput) {
-        switch (item.getItemId()) {
-            case R.id.calculatePoint:
-                String timeStr = timeInput.getText().toString();
-                if (!TextUtils.isEmpty(timeStr)) {
-                    try {
-                        int timeInMinutes = Integer.parseInt(timeStr);
-                        LatLng startPoint = markerClickHandler.getStartPoint();
-                        // Clear previous polygon if exists
-                        if (currentPolygon != null) {
-                            currentPolygon.remove();
-                        }
-                        List<LatLng> destinations = RouteCalculator.calculateDestinations(MainActivity.this, startPoint, mMap, timeInMinutes);
-                        for (LatLng destination : destinations) {
-                            Marker marker = mMap.addMarker(new MarkerOptions()
-                                    .position(destination)
-                                    .title("Destination")
-                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-                            dynamicMarkers.add(marker);
-                        }
-                    } catch (NumberFormatException e) {
-                        Toast.makeText(MainActivity.this, "Invalid input", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(MainActivity.this, "Please enter time in minutes", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case R.id.buildGeofence:
-                timeStr = timeInput.getText().toString();
-                if (!TextUtils.isEmpty(timeStr)) {
-                    try {
-                        int timeInMinutes = Integer.parseInt(timeStr);
-                        LatLng startPoint = markerClickHandler.getStartPoint();
-                        if (startPoint != null) {
-                            for (Marker marker : dynamicMarkers) {
-                                marker.remove();
-                            }
-                            dynamicMarkers.clear();
-                            if (currentPolygon != null) {
-                                currentPolygon.remove();
-                            }
+//    private void handleButton1Selection(MenuItem item, EditText timeInput) {
+//        switch (item.getItemId()) {
+//            case R.id.calculatePoint:
+//                String timeStr = timeInput.getText().toString();
+//                if (!TextUtils.isEmpty(timeStr)) {
+//                    try {
+//                        int timeInMinutes = Integer.parseInt(timeStr);
+//                        LatLng startPoint = markerClickHandler.getStartPoint();
+//                        // Clear previous polygon if exists
+//                        if (currentPolygon != null) {
+//                            currentPolygon.remove();
+//                        }
+//                        List<LatLng> destinations = RouteCalculator.calculateDestinations(MainActivity.this, startPoint, mMap, timeInMinutes);
+//                        for (LatLng destination : destinations) {
+//                            Marker marker = mMap.addMarker(new MarkerOptions()
+//                                    .position(destination)
+//                                    .title("Destination")
+//                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+//                            dynamicMarkers.add(marker);
+//                        }
+//                    } catch (NumberFormatException e) {
+//                        Toast.makeText(MainActivity.this, "Invalid input", Toast.LENGTH_SHORT).show();
+//                    }
+//                } else {
+//                    Toast.makeText(MainActivity.this, "Please enter time in minutes", Toast.LENGTH_SHORT).show();
+//                }
+//                break;
+//            case R.id.buildGeofence:
+//                timeStr = timeInput.getText().toString();
+//                if (!TextUtils.isEmpty(timeStr)) {
+//                    try {
+//                        int timeInMinutes = Integer.parseInt(timeStr);
+//                        LatLng startPoint = markerClickHandler.getStartPoint();
+//                        if (startPoint != null) {
+//                            for (Marker marker : dynamicMarkers) {
+//                                marker.remove();
+//                            }
+//                            dynamicMarkers.clear();
+//                            if (currentPolygon != null) {
+//                                currentPolygon.remove();
+//                            }
+//
+//                            List<LatLng> destinations = RouteCalculator.calculateDestinations(MainActivity.this, startPoint, mMap, timeInMinutes);
+//                            List<LatLng> updatedDestinations = GeofenceTime.updateDestinations(MainActivity.this, startPoint, destinations, timeInMinutes, polyline);
+//                            if (updatedDestinations.size() != destinations.size()) {
+//                                Toast.makeText(MainActivity.this, "Data tidak valid", Toast.LENGTH_LONG).show();
+//                            }else {
+//                                // Add new markers
+////                                Toast.makeText(MainActivity.this, "Data Update = " + updatedDestinations.size() + " Data Old =  "+ destinations.size(), Toast.LENGTH_LONG).show();
+////                                for (LatLng updatedDestination : updatedDestinations) {
+////                                    Marker marker = mMap.addMarker(new MarkerOptions()
+////                                            .position(updatedDestination)
+////                                            .title("Updated Destination")
+////                                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
+////                                    dynamicMarkers.add(marker);
+////                                }
+//                                sortPointsToFormPolygon(updatedDestinations);
+//                                drawGeofencePolygon(updatedDestinations);
+//                                mapDriver.setGeofence(updatedDestinations);
+//                            }
+//                        } else {
+//                            Toast.makeText(MainActivity.this, "Start point is not set", Toast.LENGTH_SHORT).show();
+//                        }
+//                    } catch (NumberFormatException e) {
+//                        Toast.makeText(MainActivity.this, "Invalid input", Toast.LENGTH_SHORT).show();
+//                    }
+//                } else {
+//                    Toast.makeText(MainActivity.this, "Please enter time in minutes", Toast.LENGTH_SHORT).show();
+//                }
+//                break;
+//        }
+//    }
 
-                            List<LatLng> destinations = RouteCalculator.calculateDestinations(MainActivity.this, startPoint, mMap, timeInMinutes);
-                            List<LatLng> updatedDestinations = GeofenceTime.updateDestinations(MainActivity.this, startPoint, destinations, timeInMinutes, polyline);
-                            if (updatedDestinations.size() != destinations.size()) {
-                                Toast.makeText(MainActivity.this, "Data tidak valid", Toast.LENGTH_LONG).show();
-                            }else {
-                                // Add new markers
-//                                Toast.makeText(MainActivity.this, "Data Update = " + updatedDestinations.size() + " Data Old =  "+ destinations.size(), Toast.LENGTH_LONG).show();
-//                                for (LatLng updatedDestination : updatedDestinations) {
-//                                    Marker marker = mMap.addMarker(new MarkerOptions()
-//                                            .position(updatedDestination)
-//                                            .title("Updated Destination")
-//                                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
-//                                    dynamicMarkers.add(marker);
-//                                }
-                                sortPointsToFormPolygon(updatedDestinations);
-                                drawGeofencePolygon(updatedDestinations);
-                                mapDriver.setGeofence(updatedDestinations);
-                            }
-                        } else {
-                            Toast.makeText(MainActivity.this, "Start point is not set", Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (NumberFormatException e) {
-                        Toast.makeText(MainActivity.this, "Invalid input", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(MainActivity.this, "Please enter time in minutes", Toast.LENGTH_SHORT).show();
-                }
-                break;
-        }
-    }
-
-    @SuppressLint("NonConstantResourceId")
-    private void handleButton2Selection(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.route_a_star:
-                try {
-                    mapDriver.displayDriversOnMap(this);
-                } catch (Exception e) {
-                    Toast.makeText(MainActivity.this, "Error" + e, Toast.LENGTH_LONG).show();
-                }
-                break;
-            case R.id.route_djikstra:
-                this.start30x(1);
-                break;
-            // Handle other routes if needed
-        }
-    }
+//    @SuppressLint("NonConstantResourceId")
+//    private void handleButton2Selection(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.route_a_star:
+//                try {
+//                    mapDriver.displayDriversOnMap(this);
+//                } catch (Exception e) {
+//                    Toast.makeText(MainActivity.this, "Error" + e, Toast.LENGTH_LONG).show();
+//                }
+//                break;
+//            case R.id.route_djikstra:
+//                this.start30x(1);
+//                break;
+//            // Handle other routes if needed
+//        }
+//    }
 
     private void start30x(int counter) {
         if (counter == 2) return;
